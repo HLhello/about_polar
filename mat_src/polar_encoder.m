@@ -1,34 +1,32 @@
 clc;
 clear;
 
-block=10;   
-N=2^3;
-R=1/2;
-SNR=1:5;
-snr=10.^(SNR./10);
+n = 3;      % 级数
+N=2^n;      % 编码长度
+R=1/2;      % 码率
 
-S=floor(N*R);       % 信息位所占码长，使用floor意在当N为奇数时冻结位占据数量优势
-F=N-S;              % 冻结位所占码长
-ST=S*block;         % signal_total总的信息位长度
-FT=F*block;         % frozen_total总的冻结位长度
+S=N*R;      % 信息位所占码长
+F=N-S;      % 冻结位所占码长
 
-signal = randi([0,1],1,ST);       %信息位比特，随机二进制数
-frozen = zeros(1,FT);             %固定位比特，规定全为0
-encode = zeros(1,N * block);      %编码后的比特
-noise = snr(ii) ^ 1/2 * randn(1,N * block);  %加性高斯白噪声
+signal = randi([0,1],1,S);       %信息位比特，随机二进制数
+frozen = zeros(1,F);             %固定位比特，规定全为0
 
-y = B_para( p );
+EbN0db = 2;  % 1/2:0~2; 1/3: -0.2~1.8; 1/4: -1~1; 1/6: -1.2~0.8
+ebn0 = 10.^(EbN0db./10);
+%sigma = 1/sqrt(2*rate*en);
+noise = ebn0*randn(1, N);
 
-[Z_in_order,index] = sort( y );             %将巴氏参数从小到大排列
+%Bhat = Bhat_para(p, N);
+Bhat = [0.9593    0.5472    0.1386    0.1493    0.2575    0.8407    0.2543    0.8143];
+
+[Z_in_order,index] = sort( Bhat );          %将巴氏参数从小到大排列
 signal_index = sort( index( 1:S ) );        %前S位作为信息位
-frozen_index = sort( index( s+1:end ) );    %后面的作为冻结位
+frozen_index = sort( index( S+1:end ) );    %后面的作为冻结位
+
+u = zeros(1,N);
+u(1, signal_index) = signal;
 
 GN = gen_matrix( n );
 
-for j=1:block                 %对每一个码块都要进行编码处理
-    encoded(1,((j-1)*N+1):(j*N)) = signal(((j-1)*S+1):(j*S))*G(signal_index,:) + frozen(((j-1)*F+1):(j*F))*G(frozen_index,:);
-end                           %进行编码
-encode = mod(encode,2);       %对2取模
-encode = 2 * encode - 1;      %符号化
-encode = encode + noise;      %叠加噪声
+encode = mod(u*GN, 2);
 
