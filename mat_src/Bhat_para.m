@@ -1,15 +1,21 @@
-function Bhat = Bhat_para(p, N)
-% 将巴氏参数计算过程封装在函数B_para之中方便调用，Z为数组，作为实参传递进来。数组中只有第一个元素。
+function Bhat = Bhat_para(era_p, n)
+% 计算B-DMC信道的子信道BEC信道的巴氏参数
 
-% Z第一个元素可以通过计算得到
-Z = 2*(p*(1-p))^0.5;
+% 由于对称性
+Z = zeros(1,2^(n+1));
 
-for i = 1 : log2(N)         %迭代次数，N为码长
-    Z_pre = Z;              %z_pre为上一层信道巴氏参数
-    for j = 1 : 2^(i-1)     %本层运算使用的下标
-        Z(2*j-1) = 2*Z_pre(j) - Z_pre(j)^2;
-        Z(2*j) = Z_pre(j)^2;    %递推公式
+if(n == 0)
+    Z(1,1) = 2*era_p - era_p*era_p;
+    Z(1,2) = era_p*era_p;
+else
+    n_pre = n-1;
+    B_pre = Bhat_para(era_p,n_pre);
+    for ii = 1:1:2^n
+        Z(1,2*ii-1) = 2*B_pre(1,ii)-B_pre(1,ii)*B_pre(1,ii);
+        Z(1,2*ii) = B_pre(1,ii)*B_pre(1,ii);
     end
 end
-Bhat = z;      % y作为实参从函数中传递出去，y就是最终的巴氏参数
+
+Bhat = Z;
+
 end
