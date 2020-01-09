@@ -9,6 +9,5 @@ function  PW  = Polar_Weight( N )
             PW(1,ii) = PW(1,ii) + bin_vec(ii,log2(N)-jj) * 2^(jj/4);
         end
     end
-
 end
 
