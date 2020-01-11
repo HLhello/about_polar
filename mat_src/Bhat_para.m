@@ -18,7 +18,5 @@ else
         Z(1,2*ii) = B_pre(1,ii)*B_pre(1,ii);
     end
 end
-
 Bhat = Z;
-
 end
