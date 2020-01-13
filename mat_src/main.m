@@ -32,4 +32,6 @@ info_out=2*sign(-codeframeRM)+1;
 
 % 误码率统计
 
+% 译码程序
+
 
