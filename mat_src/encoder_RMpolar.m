@@ -5,7 +5,7 @@ function codeframe = encoder_RMpolar( N, S, d_min, info, PW, GN )
     
     for ii = 1:1:N
         d_weight(1,ii) = length(find(GN(ii,:)==1));
-        if(d_weight(1,ii) <= d_min)
+        if(d_weight(1,ii) <= d_min)%如果小于最小码距，将该信道设为冻结信道
             frozen(1,ii) = 1;
         end 
     end
