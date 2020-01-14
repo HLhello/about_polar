@@ -1,4 +1,4 @@
-function  PW  = Polar_Weight( N )
+function  PW  = PolarWeight( N )
 %POLAR_WEIGHT 输入信道数，输出基于PW公式的可靠度序列
     
     PW = zeros(1,N);

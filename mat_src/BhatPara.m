@@ -1,4 +1,4 @@
-function Bhat = Bhat_para(era_p, n)
+function Bhat = BhatPara(era_p, n)
 % 计算B-DMC信道的子信道BEC信道的巴氏参数
 % era_p：行到转移概率
 % n    ：递归次数
