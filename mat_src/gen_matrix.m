@@ -1,4 +1,4 @@
-function GN = gen_matrix( n )
+function [GF,GN] = gen_matrix( n )
 % 生成矩阵
     F_ini= [1 0; 1 1];
     I = eye(2);
@@ -21,6 +21,7 @@ function GN = gen_matrix( n )
             B = R*b;
         end
     end
+    GF = F;
     GN = B*F;
 end
 

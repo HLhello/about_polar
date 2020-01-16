@@ -1,39 +1,28 @@
-function codeframe = encoder_RMpolar( N, S, d_min, info, PW, GN )
+function [codeframe, channel_info] = encoder_RMpolar( N, S, d_min, info, PW ,GN)
 
     d_weight = zeros(1,N);
-    frozen = zeros(1,N);
     
     for ii = 1:1:N
         d_weight(1,ii) = length(find(GN(ii,:)==1));
-        if(d_weight(1,ii) <= d_min)%如果小于最小码距，将该信道设为冻结信道
-            frozen(1,ii) = 1;
+        if(d_weight(1,ii) <= d_min)
+            PW(1,ii) = 0;
         end 
     end
     
-    [~,index] = sort(PW);          %将巴氏参数从小到大排列
-    temp_index = zeros(1,N);
-
-    for ii = 1:1:N
-        if(frozen(1,index(1,ii))==0)
-            temp_index(1,ii) = index(1,ii);
-        else
-            temp_index(1,ii) = -100;
-        end
-    end
-   
-    unfrozen_bits = temp_index(1, find(temp_index(1,:)~=-100));
-    unfrozen_len = length(unfrozen_bits);
-    
     u = zeros(1,N);
+    channel_info = zeros(1,N);
     
-    if(unfrozen_len>=S)
-        signal_index = sort( unfrozen_bits(1,(unfrozen_len-S+1):end) );
-        u(1, signal_index) = info;    
+    [~,index] = sort(PW, 'descend');          %将PW从小到大排列 
+    
+    if(length(find(PW~=0))>=S)
+        signal_index = sort( index( 1:S ) );        %前S位作为信息位
+        u(1, signal_index) = info;
+        
+        channel_info(1,signal_index) = 1;
         codeframe = mod(u*GN, 2);
     else 
+        channel_info(1,:) = 0;
         codeframe(1,:) = zeros(1,N)-1; % code error
     end
-    
-
     
 end
