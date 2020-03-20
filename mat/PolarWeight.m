@@ -1,6 +1,6 @@
-function PW  = PolarWeight( N )
+function PW = PolarWeight( n )
 %POLAR_WEIGHT 输入信道数，输出基于PW公式的可靠度序列
-    
+    N = 2^n;
     PW = zeros(1,N);
     bin_vec = dec2binvector( 0:1:(N-1), log2(N) );
     
