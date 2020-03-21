@@ -1,4 +1,4 @@
-function [GF,GN] = generate_mat( n )
+function [GN,B] = generate_mat( n )
 
     F_ini= [1 0; 1 1];
     I = eye(2);
@@ -21,7 +21,6 @@ function [GF,GN] = generate_mat( n )
             B = R*b;
         end
     end
-    GF = F;
     GN = B*F;
 end
 
