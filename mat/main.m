@@ -50,7 +50,7 @@ for nEN = 1:1:length(EbN0db)
 		llr = 2*y/sigma;
 		% llr = 2*y/sigmax;
 		
-		uhat = decoder(llr, info_position, GN, B);
+		uhat = decoder(stage, info_position, GN, B, llr);
 		
 		error(nEN,nframe) = sum(abs(u - uhat));
 	end
