@@ -1,12 +1,14 @@
 clc;
 clear;
 
-stage = 3;
+load('parm.mat');
+
+stage = 10;
 Rate = 1/2;
 d_min = 0;
 
 EbN0db = [1,2,3];
-max_tn = 10;
+max_tn = 5;
 
 [GN,B] = generate_mat( stage );
 
@@ -35,24 +37,24 @@ for nEN = 1:1:length(EbN0db)
 	% sigmax = 1.0492/en; while Rate = 1/2
 	
 	nframe = 0;
-	while(nframe<=max_tn)
+	while(nframe<max_tn)
 		nframe = nframe + 1;
 		
 		u = randi([0,1],1,Rate*2^stage); 
 		
-		x=encoder(u, info_position, GN);
+		[x,c]=encoder(u, info_position, GN);
 		
 		GWnoise = sqrt(sigma)*randn(1,length(x));
-		% GWnoise = sqrt(sigmax)*randn(1,length(x));
+		%GWnoise = sqrt(sigma)*randn(1,length(x));
 		
 		y = x + GWnoise;
 		
 		llr = 2*y/sigma;
-		% llr = 2*y/sigmax;
+		%llr = 2*y/sigma;
 		
-		uhat = decoder(stage, info_position, GN, B, llr);
+		chat = decoder(stage, info_position, GN, B, llr, parm);
 		
-		error(nEN,nframe) = sum(abs(u - uhat));
+		error(nEN,nframe) = sum(abs(c - chat));
 	end
 end
 

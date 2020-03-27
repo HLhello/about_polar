@@ -1,4 +1,4 @@
-function x = encoder(u, info_position, GN)
+function [x,pre_c] = encoder(u, info_position, GN)
 len = length(info_position);
 c = zeros(1,len);
 idx = 1;
@@ -8,6 +8,9 @@ for ii = 1:1:len
 		idx = idx + 1;
 	end
 end
-x = mod(c*GN, 2);
-x=2*sign(x)+1;
+
+pre_c = c;
+t = mod(c*GN, 2);
+x = 2*sign(-t) + 1;
+
 end
