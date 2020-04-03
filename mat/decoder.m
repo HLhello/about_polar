@@ -2,8 +2,8 @@ function chat = decoder(stage, info_position, GN, B, llr, parm)
 
 len = 2^stage;
 
-GK = GN * B;
-ver_llr = llr * B;
+ver_llr = llr;%ver_llr = llr*B;
+GK = GN;%GK = B*GN;
 
 fx = zeros(len/2, stage);
 gx = zeros(len/2, stage);
@@ -17,16 +17,11 @@ for stg = 1:stage
         for ii = 1:len/(2^stg)
             fx(ii,stg) = f_calc(ver_llr(ii), ver_llr(ii + len/(2^stg)));
         end
-		% stg = stg + 1;
-    % elseif(stg == stage)
-        % for ii = 1:len/(2^stg)
-            % fx(ii,stg) = f_calc(fx(ii, stg-1), fx(ii+len/(2^stg), stg-1));
-        % end
     else 
         for ii = 1:len/(2^stg)
             fx(ii,stg) = f_calc(fx(ii, stg-1), fx(ii+len/(2^stg), stg-1));
         end
-		%stg = stg + 1;
+
     end
 end
 
