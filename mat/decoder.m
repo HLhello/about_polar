@@ -1,9 +1,9 @@
-function chat = decoder(stage, info_position, GN, B, llr, parm)
+function chat = decoder(stage, info_position, GN, llr, parm)
 
 len = 2^stage;
 
-ver_llr = llr;%ver_llr = llr*B;
-GK = GN;%GK = B*GN;
+ver_llr = llr;
+GK = GN;
 
 fx = zeros(len/2, stage);
 gx = zeros(len/2, stage);

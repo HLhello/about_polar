@@ -12,15 +12,15 @@ max_tn = 5;
 
 [GN,GK,B] = generate_mat( stage );
 
-gen_seq_core = 2;  %generate sequence core (1-->Bhat), (2-->PW), (3-->GA)
-% info_position = channel_info( stage, Rate, d_min, GN, gen_seq_core );
-% if(length(find(info_position==1)) < Rate*2^stage)
-%     disp('error: d_min too large to encode');
-%     return;
-% end
+gen_seq_core = 1;  %generate sequence core (1-->Bhat), (2-->PW), (3-->GA)
+info_position = channel_info( stage, Rate, d_min, GN, gen_seq_core );
+if(length(find(info_position==1)) < Rate*2^stage)
+    disp('error: d_min too large to encode');
+    return;
+end
 
 % debug\/\/\/\/\/\/\/\/\/\/
-load('info_position.mat')
+% load('info_position.mat')
 % info_position1 = channel_info( stage, Rate, d_min, GN, 1 );
 % info_position2 = channel_info( stage, Rate, d_min, GN, 2 );
 % diff_PW_Bhat = length(find(info_position1 ~= info_position2));
@@ -36,28 +36,16 @@ for nEN = 1:1:length(EbN0db)
 	sigma = 1/(2*Rate*en);
 	%sigma = 1.0492/en; %while Rate = 1/2
 	
-	nframe = 0;
-	while(nframe<max_tn)
-		nframe = nframe + 1;
-		
-		u = randi([0,1],1,Rate*2^stage); 
-		
+	for nframe = 1:1:max_tn
+        
+		u = randi([0,1],1,Rate*(2^stage)); 
 		[x,c]=encoder(u, info_position, GK);
-		
 		GWnoise = sqrt(sigma)*randn(1,length(x));
-		
 		y = x + GWnoise;
-		
 		llr = 2*y/sigma;
-		
-		chat = decoder(stage, info_position, GK, B, llr, parm);
-		% debug\/\/\/\/\/\/\/\/\/\/
-		% for xx = 1:1:length(chat)
-		%     if(isnan(chat(xx)))
-		%         chat(xx) = c(xx);
-		%     end
-		% end
+		chat = decoder(stage, info_position, GK, llr, parm);
 		error(nEN,nframe) = sum(abs(c - chat));
+        
 	end
 end
 
