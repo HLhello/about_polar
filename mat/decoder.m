@@ -1,9 +1,9 @@
-function chat = decoder(stage, info_position, GN, llr, parm)
+function c_hat = decoder(stage, info_position, G, llr, parm)
 
 len = 2^stage;
 
 ver_llr = llr;
-GK = GN;
+GK = G;
 
 fx = zeros(len/2, stage);
 gx = zeros(len/2, stage);
@@ -128,6 +128,6 @@ while idx < len
 	end
 end
 
-chat = cx;
+c_hat = cx;
 
 end

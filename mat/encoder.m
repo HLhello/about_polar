@@ -15,4 +15,6 @@ end
 pre_c = c;
 t = mod(c*G, 2);
 x = 2*sign(-t) + 1;
+% 0 -->  1
+% 1 --> -1
 end
