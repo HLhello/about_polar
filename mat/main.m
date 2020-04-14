@@ -16,6 +16,8 @@ info_position = channel_info( stage, Rate, d_min, GN, 1 );
 if(length(find(info_position==1)) < Rate*(2^stage))
     disp('error: d_min too large to encode');
     return;
+	
+	
 end
 
 % debug\/\/\/\/\/\/\/\/\/\/
