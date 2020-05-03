@@ -4,6 +4,8 @@ function l_odd = f_calc(a,b)
 
 %l_odd = sign(a) * sign(b) * min(abs(a),abs(b));
 
+
+
 l_odd=sign(a*b)*min(abs(a),abs(b));
 
 end
