@@ -1,5 +1,9 @@
 function xxx = continuePaths_FrozenBit(phi)
 	
+	
+	
+	
+	
 	for l = 1:1:L
 		if(pathIndexInactive(l)
 			continue
