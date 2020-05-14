@@ -3,7 +3,6 @@ clear
 
 l       %assigninitialpath()
 p0       %getArrayPionter_P(0,l)
-
 for  beta = 1:1:n
 	set p0(beta,0) = w(y|0)
 	set p0(beta,1) = w(y|1)
