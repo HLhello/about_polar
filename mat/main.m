@@ -13,7 +13,6 @@ parm = generate_parm(stage);
 
 gen_seq_core = 1;  %generate sequence core (1-->Bhat), (2-->PW), (3-->GA)
 info_position = channel_info( stage, Rate, d_min, GN, 1 );
-frozenpos = find(info_position == 0);
 if(length(find(info_position==1)) < Rate*(2^stage))
     disp('error: d_min too large to encode');
     return;
@@ -39,7 +38,7 @@ for nEN = 1:1:length(EbN0db)
         c_hat = scdecoder(stage, info_position, GK, llr, parm);
 		
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %[decOut,PathMetric] = testdecoder(llr,frozenpos,stage,GK,8);
+        %[decOut,PathMetric] = testdecoder(llr,info_position,stage,GK,8);
 		test_c = testscldecoder(8, llr, info_position);
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         error(nEN,nframe) = sum(abs(c - c_hat));
