@@ -1,4 +1,7 @@
-function [GN,GK,B] = generate_mat( n )
+function [GN,GF,B] = generate_mat( n )
+% GN generate matrix
+% B bit reversal matrix, The inverse of B is equal to B
+% GN = GF * B = B * GF
 
     F_ini= [1 0; 1 1];
     I = eye(2);
@@ -21,7 +24,7 @@ function [GN,GK,B] = generate_mat( n )
             B = R*b;
         end
     end
-	GK = F;
+	GF = F;
     GN = B*F;
 end
 

@@ -1,4 +1,4 @@
-function info_position = channel_info( stage, Rate, d_min, GN, gen_seq_core )
+function info_position = channel_polarization( stage, Rate, d_min, GN, gen_seq_core )
 %gen_seq_core (1,Bhat); (2,PW); (3,GA)
 
 len = 2^stage;

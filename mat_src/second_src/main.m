@@ -1,3 +1,4 @@
+
 clc;
 clear;
 
@@ -11,7 +12,7 @@ max_tn = 100;
 [GN,GK,B] = generate_mat( stage ); % GN = GK * B
 parm = generate_parm(stage);
 
-gen_seq_core = 1;  %generate sequence core (1-->Bhat), (2-->PW), (3-->GA)
+gen_seq_core = 1;  %generate sequence core (1-->Bhat), (2-->PW), (3-->GA)[Todo]
 info_position = channel_info( stage, Rate, d_min, GN, 1 );
 if(length(find(info_position==1)) < Rate*(2^stage))
     disp('error: d_min too large to encode');
@@ -29,19 +30,21 @@ for nEN = 1:1:length(EbN0db)
 
         u = randi([0,1],1,Rate*(2^stage)); 
         
-		[x,c]=encoder(u, info_position, GK); % GN = GK * B
+		[x,c]=encoder(u, info_position, GK);
 		
         GWnoise = sqrt(sigma)*randn(1,length(x));
         y = x + GWnoise;
         
 		llr = 2*y/sigma;
         c_hat = scdecoder(stage, info_position, GK, llr, parm);
-
+		
         error(nEN,nframe) = sum(abs(c - c_hat));
         ber(nEN,nframe) = error(nEN,nframe)/( Rate*(2^stage));
     end
           
 end
+
+
 
 
 
