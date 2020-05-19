@@ -15,7 +15,7 @@ end
 	
 for ii = 1:1:N
 	d_weight(1,ii) = length(find(GN(ii,:)==1));
-	if(d_weight(1,ii) <= d_min)
+    if(d_weight(1,ii) <= d_min)
         seq_index(1,ii) = 0;
     end
 end
