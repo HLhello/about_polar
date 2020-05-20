@@ -5,7 +5,7 @@ addpath('scldecoder/');
 addpath('crc/');
 
 stage = 10;
-crc_len = 16;
+crc_len = 0;
 d_min = 0;
 epslion = 0.32;
 
@@ -65,22 +65,24 @@ for nEN = 1:1:length(EbN0db)
             L = list_len(ii);
             if L == 1
                 info_hat = sc_decoder(llr, info_position, GN, B, parm);
+                
                 if(crc_len == 0)
                     err(nEN,ii) = err(nEN, ii ) + sum(abs(info - info_hat));
                 else 
                     err(nEN,ii) = err(nEN, ii ) + sum(mod(H_crc * info_hat', 2));
                 end
-                % error(nEN,nframe) = sum(abs(info - info_hat));
-                % berx(nEN,nframe) = error(nEN,nframe)/( R*(2^stage));
+                
             else 
                 [info_hat_mat,PM] = scl_decoder(llr, L, K, B, info_idx, lambda_offset, llr_layer, bit_layer);
                 [~, path_num] = min(PM);
                 info_hat = info_hat_mat(: , path_num);
+                
                 if(crc_len == 0)
                     err(nEN,ii) = err(nEN, ii) + sum(abs(info -  info_hat'));
                 else 
                     err(nEN,ii) = err(nEN, ii ) + sum(mod(H_crc * info_hat, 2));
                 end
+                
             end   
         end
     end
